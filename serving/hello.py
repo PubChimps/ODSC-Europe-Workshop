@@ -32,13 +32,13 @@ def upload():
     code = np.array([code])
     print(code)
     code = tokenizer.texts_to_sequences(code)
-    code = tf.keras.preprocessing.sequence.pad_sequences(code, padding='post', maxlen=2000)
+    code = tf.keras.preprocessing.sequence.pad_sequences(code, padding='post', maxlen=1000)
     code = code.astype('float32')
-    loaded = tf.saved_model.load("/tmp/lenet/3/")
+    loaded = tf.saved_model.load("/tmp/lenet/1/")
     print(list(loaded.signatures.keys()))
     infer = loaded.signatures["serving_default"]
     print(infer.structured_outputs)
-    pred = infer(tf.constant(code))['dense_4'].numpy()[0][0]
+    pred = infer(tf.constant(code))['dense_6'].numpy()[0][0]
     
     if pred > .5:
         framework = 'TensorFlow'
